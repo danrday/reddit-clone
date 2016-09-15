@@ -11,7 +11,12 @@ router.get('/', (req, res) =>
 		Object.keys(data).forEach(post=>{
 		Object.keys(upvotes).forEach(upvote=>{
 		if(upvotes[upvote].id==data[post]._id){
-
+			if(upvotes[upvote].upvote){
+				console.log("+1")
+			}
+			else if(!upvotes[upvote].upvote){
+				console.log("-1")
+			}
 		}
 		})
 		})
