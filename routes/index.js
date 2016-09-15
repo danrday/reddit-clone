@@ -8,9 +8,13 @@ router.get('/', (req, res) =>
 		postModel.find(),
 		upvote.find()]).
 	then(([data,upvotes])=>{
-		// Object.keys(upvotes).forEach((vote)=>{
-		// 	console.log(upvotes[vote])
-		// })
+		Object.keys(data).forEach(post=>{
+		Object.keys(upvotes).forEach(upvote=>{
+		if(upvotes[upvote].id==data[post]._id){
+
+		}
+		})
+		})
 		res.render('index',{data,upvotes})
 	})
   
