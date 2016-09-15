@@ -1,0 +1,22 @@
+extends partials/layout.pug
+
+block content
+  .row
+    .order-form
+      form.col.s12(method='POST')
+        .row
+          .form-group
+            .input-field.col.s12
+              input#title(placeholder='Placeholder', type='text')
+              label(for='first_name') Title
+          .form-group
+            .input-field.col.s6
+              textarea#description(type='text')
+              label(for='last_name') Description
+          .form-group
+            .input-field.col.s6
+              input#image(type='text')
+              label(for='last_name') Image Link
+          .order-form__submit
+            button.btn.waves-effect.waves-light(type='submit', name='action')
+              | Submit
