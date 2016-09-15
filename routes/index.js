@@ -1,8 +1,12 @@
 const {Router} = require('express');
+const postModel = require('../models/post.js')
 
 const router = Router()
 router.get('/', (req, res) =>
-  res.render('index')
+  postModel.find()
+  .then(data=>res.render('index',{data}))
+
+  
 )
 
 router.get('/post', (req, res) =>
@@ -10,7 +14,10 @@ router.get('/post', (req, res) =>
 )
 
 router.post('/post', (req, res, err) => {
-  console.log("HI")
+  const post = new postModel(req.body)
+  post.save()
+  .then(res.redirect('/'))
+  .catch(err=>console.log(err))
 })
 
 module.exports=router;
