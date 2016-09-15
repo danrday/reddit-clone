@@ -5,10 +5,12 @@ block content
     .col.s12.m7
       .card.horizontal
         .card-image
-           img(src='#{post.image}')
+           img(src=`${post.image}`)
         .card-stacked
           .card-content
             p #{post.title}
+            p #{post.description}
           .card-action
-            a(href='#') Upvote
-            a(href='#') Downvote
+            form(method="POST")
+             button(type="submit",name="upvote",value=`[true,${post._id}]`) Upvote
+             button(type="submit",name="upvote",value=`[false,${post._id}]`) Downvote
