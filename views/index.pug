@@ -14,3 +14,4 @@ block content
             form(method="POST")
              button(type="submit",name="upvote",value=`[true,${post._id}]`) Upvote
              button(type="submit",name="upvote",value=`[false,${post._id}]`) Downvote
+             p #{post.score}

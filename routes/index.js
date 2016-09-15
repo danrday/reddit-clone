@@ -9,20 +9,21 @@ router.get('/', (req, res) =>
 		upvote.find()]).
 	then(([data,upvotes])=>{
 		Object.keys(data).forEach(post=>{
+      data[post].score = 0
 		Object.keys(upvotes).forEach(upvote=>{
 		if(upvotes[upvote].id==data[post]._id){
 			if(upvotes[upvote].upvote){
-				console.log("+1")
+				data[post].score++
 			}
 			else if(!upvotes[upvote].upvote){
-				console.log("-1")
+				data[post].score--
 			}
 		}
 		})
 		})
 		res.render('index',{data,upvotes})
 	})
-  
+
 )
 
 router.get('/post', (req, res) =>
@@ -47,7 +48,10 @@ router.post('/', (req, res, err) => {
 		upvote:dataArray[0]
 	}
 	const vote = new upvote(upvoteObj);
-	vote.save();
+	vote.save()
+  .then(
+    res.redirect('/')
+  )
 })
 
 
