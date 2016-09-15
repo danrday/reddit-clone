@@ -14,5 +14,9 @@
     "public/lib",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "materialize": "^0.97.7",
+    "jquery": "^3.1.0"
+  }
 }

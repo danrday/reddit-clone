@@ -1,13 +1,16 @@
 extends partials/layout.pug
 
 block content
-  .col.s12.m7
-    .card.horizontal
-      .card-image
-        img(src='http://lorempixel.com/100/190/nature/6')
-      .card-stacked
-        .card-content
-          p I am a very simple card. I am good at containing small bits of information.
-        .card-action
-          a(href='#') Upvote
-          a(href='#') Downvote
+  each post in data
+    .col.s12.m7
+      .card.horizontal
+        .card-image
+           img(src=`${post.image}`)
+        .card-stacked
+          .card-content
+            p #{post.title}
+            p #{post.description}
+          .card-action
+            form(method="POST")
+             button(type="submit",name="upvote",value=`[true,${post._id}]`) Upvote
+             button(type="submit",name="upvote",value=`[false,${post._id}]`) Downvote
