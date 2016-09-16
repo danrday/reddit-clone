@@ -8,13 +8,13 @@ block content
            img(src=`${post.image}`)
         .card-stacked
           .card-content
-            p #{post.title}
-            p #{post.description}
+            p Title: #{post.title}
+            p Description: #{post.description}
           .card-action
             form(action=`/${post._id}/up` method="POST")
               input(type="submit" value="up")
             form(action=`/${post._id}/down` method="POST")
               input(type="submit" value="down")
-            p #{post.upvotes}
+            p #{post.upvotes} Upvotes
             form(action=`/comments/${post._id}/` method="GET")
-              input(type="submit",value=`${post.comments.length}`)
+              input(type="submit",value=`${post.comments.length} comments`)
