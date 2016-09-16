@@ -1,6 +1,6 @@
 const express = require('express');
 const routes = require('./routes/')
-const {connect} = require('./database')
+const connect = require('./database').connect
 const { cyan, red } = require('chalk')
 const bodyParser = require('body-parser')
 
