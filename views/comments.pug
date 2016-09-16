@@ -6,8 +6,8 @@ block content
       .card.horizontal
         .card-stacked
           .card-content
-            p #{comment.name}
-            p #{comment.comment}
+            p Name: #{comment.name}
+            p Comment: #{comment.comment}
 
   .row
     form.col.s12(action=`/comments/${postID}/` method="POST")
