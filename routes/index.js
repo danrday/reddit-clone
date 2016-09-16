@@ -11,7 +11,11 @@ router.get('/', (req, res) => {
   .catch(console.error);
 });
 
-
+router.get('/comments/:id', (req, res, err) => {
+  let postID = req.params.id
+  postModel.findById(postID)
+  .then(data=>res.render("comments",data))
+})
 
 router.get('/post', (req, res) =>
   res.render('post')
