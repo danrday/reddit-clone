@@ -7,5 +7,6 @@ module.exports=mongoose.model('Post',{
 	title:String,
 	description:String,
 	image:String,
-	upvotes: {type: Number, default: 0}
+	upvotes: {type: Number, default: 0},
+	comments: {type:Array, default: []}
 })
