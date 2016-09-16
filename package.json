@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "engine": "node 6.6.0",
+  "engines":{
+    "node": "6"
+  },
   "scripts": {
     "start": "node server.js",
     "postinstall": "bower install"
