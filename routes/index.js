@@ -14,7 +14,23 @@ router.get('/', (req, res) => {
 router.get('/comments/:id', (req, res, err) => {
   let postID = req.params.id
   postModel.findById(postID)
-  .then(data=>res.render("comments",data))
+  .then(data=>{
+    data.postID=postID
+    res.render("comments",data)
+  })
+})
+
+router.post('/comments/:id', (req, res, err) => {
+  let postID = req.params.id
+  let postedData = postModel.findById(postID)
+  .then(data=>{
+    console.log(req.body)
+    data.comments.push(req.body)
+    data.save()
+    res.render("comments",data)
+  })
+
+
 })
 
 router.get('/post', (req, res) =>
