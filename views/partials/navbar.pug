@@ -1,8 +1,15 @@
 nav
-  .nav-wrapper
-    a.brand-logo(href='#') Reddit
-    ul#nav-mobile.right.hide-on-med-and-down
-      li
-        a(href='/post') New Card
-      li
-        a(href='/') Saved Cards
+	.nav-wrapper
+		a.brand-logo(href='#') Reddit
+		ul#nav-mobile.right.hide-on-med-and-down
+			if email
+				li
+					a(href='/post') New Card
+				li
+					a(href='/') Saved Cards
+				li
+					a(href='/logout') logout
+				li #{email}
+			else 
+				li
+					a(href='/login') Login

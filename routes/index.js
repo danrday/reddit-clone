@@ -48,13 +48,6 @@ router.get('/post', (req, res) =>
 )
 
 
-router.post('/logout', (req, res) => {
-  req.session.destroy(err => {
-    if (err) throw err
-    res.redirect('/login')
-  })
-})
-
 router.post('/register', ({ body: { email, password, confirmation } }, res, err) => {
   if (password === confirmation) {
     User.findOneByEmail(email)
@@ -74,7 +67,7 @@ router.post('/register', ({ body: { email, password, confirmation } }, res, err)
 
 // login guard middleware
 router.use((req, res, next) => {
-  if (req.user.email) {
+  if (req.user && req.user.email) {
     next()
   } else {
     res.redirect('/login')
@@ -85,8 +78,7 @@ router.post('/comments/:id', (req, res, err) => {
   let postID = req.params.id
   let postedData = postModel.findById(postID)
   .then(data=>{
-    console.log(req.body)
-    data.comments.push(req.body)
+    data.comments.push({name: req.user.email, comment:req.body.comment})
     data.save()
     res.render("comments",data)
   })
@@ -134,6 +126,13 @@ router.post('/:id/up', (req, res, err) => {
 router.get('/logout', (req, res) =>
   res.render('logout', { page: 'Logout'})
 )
+router.post('/logout', (req, res) => {
+  req.session.destroy(err => {
+    if (err) throw err
+    res.redirect('/login')
+  })
+})
+
 
 
 
