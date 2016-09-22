@@ -3,6 +3,9 @@ const routes = require('./routes/')
 const connect = require('./database').connect
 const { cyan, red } = require('chalk')
 const bodyParser = require('body-parser')
+const session = require('express-session')
+const RedisStore = require('connect-redis')(session)
+
 
 const app=express()
 app.set('view engine','pug')
@@ -17,6 +20,22 @@ app.use(({ method, url, headers: { 'user-agent': agent } }, res, next) => {
 })
 
 app.use(express.static('public'))
+
+app.use(session({
+  store: new RedisStore({
+    url: process.env.REDIS_URL || 'redis://localhost:6379'
+  }),
+  secret: 'pizzadescottsupersecretkey'
+}))
+
+app.use((req, res, next) => {
+  app.locals.email = req.session.email
+  next()
+})
+
+
+
+
 app.use(bodyParser.urlencoded({ extended: false }))
 
 app.use(routes)
