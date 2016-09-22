@@ -5,6 +5,7 @@ const { cyan, red } = require('chalk')
 const bodyParser = require('body-parser')
 const session = require('express-session')
 const RedisStore = require('connect-redis')(session)
+const passport = require('passport')
 
 
 const app=express()
@@ -28,12 +29,14 @@ app.use(session({
   secret: 'pizzadescottsupersecretkey'
 }))
 
+require('./lib/passport-strategies')
+app.use(passport.initialize())
+app.use(passport.session())
+
 app.use((req, res, next) => {
-  app.locals.email = req.session.email
+  app.locals.email = req.user && req.user.email
   next()
 })
-
-
 
 
 app.use(bodyParser.urlencoded({ extended: false }))

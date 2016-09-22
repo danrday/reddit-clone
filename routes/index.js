@@ -2,6 +2,7 @@ const {Router} = require('express');
 const postModel = require('../models/post')
 const User = require('../models/user')
 const bcrypt = require('bcrypt')
+const passport = require('passport')
 
 const router = Router()
 
@@ -30,33 +31,16 @@ router.get('/login', (req, res) =>
   res.render('login')
 )
 
-router.post('/login', ({ session, body: { email, password } }, res, err) => {
-  User.findOne({ email })
-    .then(user => {
-      if (user) {
-        return new Promise((resolve, reject) => {
-          bcrypt.compare(password, user.password, (err, matches) => {
-            if (err) {
-              reject(err)
-            } else {
-              resolve(matches)
-            }
-          })
-        })
-      } else {
-        res.render('login', { msg: 'Email does not exist in our system' })
-      }
+router.post('/login', (req, res, next) =>
+  passport.authenticate('local', (err, user, msg) => {
+    if (err) { return next(err) }
+    if (!user) { return res.render('login', msg) }
+
+    req.logIn(user, err => {
+      if (err) { return next(err) }
+      res.redirect('/')
     })
-    .then((matches) => {
-      if (matches) {
-        session.email = email
-        res.redirect('/')
-      } else {
-        res.render('login', { msg: 'Password does not match' })
-      }
-    })
-    .catch(err)
-})
+  })(req, res, next))
 
 
 router.get('/post', (req, res) =>
@@ -71,15 +55,31 @@ router.post('/logout', (req, res) => {
   })
 })
 
+router.post('/register', ({ body: { email, password, confirmation } }, res, err) => {
+  if (password === confirmation) {
+    User.findOneByEmail(email)
+      .then(user => {
+        if (user) {
+          return res.render('register', { msg: 'Email is already registered' })
+        }
+
+        return User.create({ email, password })
+      })
+      .then(() => res.redirect('/login'))
+      .catch(err)
+  } else {
+    res.render('register', { msg: 'Password & password confirmation do not match' })
+  }
+})
+
 // login guard middleware
 router.use((req, res, next) => {
-  if (req.session.email) {
+  if (req.user.email) {
     next()
   } else {
     res.redirect('/login')
   }
 })
-
 
 router.post('/comments/:id', (req, res, err) => {
   let postID = req.params.id
