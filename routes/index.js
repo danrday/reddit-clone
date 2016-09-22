@@ -67,7 +67,7 @@ router.post('/register', ({ body: { email, password, confirmation } }, res, err)
 
 // login guard middleware
 router.use((req, res, next) => {
-  if (req.session.email) {
+  if (req.user && req.user.email) {
     next()
   } else {
     res.redirect('/login')
